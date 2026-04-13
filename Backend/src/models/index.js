@@ -12,6 +12,25 @@ const Avis = require("./avis");
 const Note = require("./note");
 const Commentaire = require("./commentaire");
 
+const db = {};
+
+db.sequelize = sequelize;
+db.Sequelize = require("sequelize");
+
+// Export des modèles
+db.Admin = Admin;
+db.Client = Client;
+db.Prestataire = Prestataire;
+db.Document = Document;
+db.Service = Service;
+db.Categorie = Categorie;
+db.SousCategorie = SousCategorie;
+db.RendezVous = RendezVous;
+db.Avis = Avis;
+db.Note = Note;
+db.Commentaire = Commentaire;
+
+// Relations Client - Prestataire
 Client.hasOne(Prestataire, { foreignKey: "clientId", as: "prestataire" });
 Prestataire.belongsTo(Client, { foreignKey: "clientId", as: "client" });
 
@@ -59,17 +78,4 @@ Note.belongsTo(Avis, { foreignKey: "avisId", as: "avis" });
 Avis.hasOne(Commentaire, { foreignKey: "avisId", as: "commentaire" });
 Commentaire.belongsTo(Avis, { foreignKey: "avisId", as: "avis" });
 
-module.exports = {
-  sequelize,
-  Admin,
-  Client,
-  Prestataire,
-  Document,
-  Service,
-  Categorie,
-  SousCategorie,
-  RendezVous,
-  Avis,
-  Note,
-  Commentaire,
-};
+module.exports = db;
