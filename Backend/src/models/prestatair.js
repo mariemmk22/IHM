@@ -9,7 +9,6 @@ const Prestataire = sequelize.define("Prestataire", {
     primaryKey: true,
   },
 
-  // 🔥 relation avec Client
   clientId: {
     type: DataTypes.INTEGER,
     allowNull: false,

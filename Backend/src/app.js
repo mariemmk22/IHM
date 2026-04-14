@@ -20,17 +20,17 @@ app.use(express.json());
 app.use("/api/admin", adminRoutes);
 app.use("/api/categories", categorieRoutes);
 app.use("/api/sous-categories", sousCategorieRoutes);
-
-app.get("/", (req, res) => {
-  res.send("API OK");
-});
-
 // Brancher les routes
 app.use("/api/prestataires", prestataireRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/documents", documentRoutes);
 app.use("/api/clients", clientRoutes);
 app.use("/api/auth", authRoutes);
+
+app.get("/", (req, res) => {
+  res.send("API OK");
+});
+
 
 
 module.exports = app;
