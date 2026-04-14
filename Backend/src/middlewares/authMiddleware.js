@@ -4,18 +4,17 @@ require("dotenv").config();
 // ==============================
 // 🔐 Vérifier token JWT
 // ==============================
-exports.verifyToken = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   try {
-    const token = req.headers["authorization"];
+    const authHeader = req.headers.authorization;
 
-    if (!token) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ message: "Token manquant" });
     }
 
-    // Format: Bearer TOKEN
-    const cleanToken = token.split(" ")[1];
+    const token = authHeader.split(" ")[1];
 
-    const decoded = jwt.verify(cleanToken, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     req.user = decoded; // { id, role }
 
@@ -25,11 +24,10 @@ exports.verifyToken = (req, res, next) => {
   }
 };
 
-
 // ==============================
 // 👑 Vérifier rôle ADMIN
 // ==============================
-exports.isAdmin = (req, res, next) => {
+const isAdmin = (req, res, next) => {
   if (!req.user) {
     return res.status(401).json({ message: "Non authentifié" });
   }
@@ -41,24 +39,29 @@ exports.isAdmin = (req, res, next) => {
   next();
 };
 
-
 // ==============================
 // 👤 Vérifier CLIENT
 // ==============================
-exports.isClient = (req, res, next) => {
-  if (req.user.role !== "CLIENT") {
+const isClient = (req, res, next) => {
+  if (!req.user || req.user.role !== "CLIENT") {
     return res.status(403).json({ message: "Accès réservé aux clients" });
   }
   next();
 };
 
-
 // ==============================
 // 🧑‍🔧 Vérifier PRESTATAIRE
 // ==============================
-exports.isPrestataire = (req, res, next) => {
-  if (req.user.role !== "PRESTATAIRE") {
+const isPrestataire = (req, res, next) => {
+  if (!req.user || req.user.role !== "PRESTATAIRE") {
     return res.status(403).json({ message: "Accès réservé aux prestataires" });
   }
   next();
+};
+
+module.exports = {
+  verifyToken,
+  isAdmin,
+  isClient,
+  isPrestataire,
 };

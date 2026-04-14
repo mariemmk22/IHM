@@ -1,8 +1,8 @@
-const sequelize = require("../config/db");
+const sequelize = require("../config/bd");
 
 const Admin = require("./admin");
 const Client = require("./client");
-const Prestataire = require("./prestataire");
+const Prestataire = require("./prestatair");
 const Document = require("./document");
 const Service = require("./service");
 const Categorie = require("./categorie");
