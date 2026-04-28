@@ -38,7 +38,20 @@ exports.getAllCategories = async (req, res) => {
       ],
     });
 
-    res.status(200).json(categories);
+    // Normalize the response to use 'id' instead of 'idCategorie'/'idSousCategorie'
+    const normalizedCategories = categories.map(cat => ({
+      id: cat.idCategorie,
+      nomCategorie: cat.nomCategorie,
+      description: cat.description,
+      sousCategories: cat.sousCategories?.map(sc => ({
+        id: sc.idSousCategorie,
+        nomSousCategorie: sc.nomSousCategorie,
+        description: sc.description,
+        categorieId: sc.categorieId,
+      })) ?? []
+    }));
+
+    res.status(200).json(normalizedCategories);
   } catch (error) {
     res.status(500).json({
       message: "Erreur lors de la récupération des catégories",
@@ -69,7 +82,20 @@ exports.getCategorieById = async (req, res) => {
       });
     }
 
-    res.status(200).json(categorie);
+    // Normalize the response
+    const normalizedCategorie = {
+      id: categorie.idCategorie,
+      nomCategorie: categorie.nomCategorie,
+      description: categorie.description,
+      sousCategories: categorie.sousCategories?.map(sc => ({
+        id: sc.idSousCategorie,
+        nomSousCategorie: sc.nomSousCategorie,
+        description: sc.description,
+        categorieId: sc.categorieId,
+      })) ?? []
+    };
+
+    res.status(200).json(normalizedCategorie);
   } catch (error) {
     res.status(500).json({
       message: "Erreur lors de la récupération de la catégorie",

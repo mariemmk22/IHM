@@ -1,19 +1,27 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/bd");
 
-const Avis = sequelize.define("Avis", {
-  idAvis: {
+const Note = sequelize.define("Note", {
+  id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+  },
+  avisId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: "avis",
+      key: "idAvis",
+    },
   },
   nbstart: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
 }, {
-  tableName: "avis",
+  tableName: "notes",
   timestamps: true,
 });
 
-module.exports = Avis;
+module.exports = Note;

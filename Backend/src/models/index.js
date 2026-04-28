@@ -43,12 +43,12 @@ Prestataire.hasMany(Service, { foreignKey: "prestataireId", as: "services" });
 Service.belongsTo(Prestataire, { foreignKey: "prestataireId", as: "prestataire" });
 
 // Relations Categorie - SousCategorie
-Categorie.hasMany(SousCategorie, { foreignKey: "categorieId", as: "sousCategories" });
-SousCategorie.belongsTo(Categorie, { foreignKey: "categorieId", as: "categorie" });
+Categorie.hasMany(SousCategorie, { foreignKey: "categorieId", as: "sousCategories", targetKey: "idCategorie" });
+SousCategorie.belongsTo(Categorie, { foreignKey: "categorieId", as: "categorie", targetKey: "idCategorie" });
 
 // Relations SousCategorie - Service
-SousCategorie.hasMany(Service, { foreignKey: "sousCategorieId", as: "services" });
-Service.belongsTo(SousCategorie, { foreignKey: "sousCategorieId", as: "sousCategorie" });
+SousCategorie.hasMany(Service, { foreignKey: "sousCategorieId", as: "services", targetKey: "idSousCategorie" });
+Service.belongsTo(SousCategorie, { foreignKey: "sousCategorieId", as: "sousCategorie", targetKey: "idSousCategorie" });
 
 // Relations Client - RendezVous
 Client.hasMany(RendezVous, { foreignKey: "clientId", as: "rendezvous" });

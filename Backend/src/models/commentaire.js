@@ -7,9 +7,17 @@ const Commentaire = sequelize.define("Commentaire", {
     autoIncrement: true,
     primaryKey: true,
   },
+  avisId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: "avis",
+      key: "idAvis",
+    },
+  },
   description: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
 }, {
   tableName: "commentaires",

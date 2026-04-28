@@ -7,6 +7,18 @@ const RendezVous = sequelize.define("RendezVous", {
     autoIncrement: true,
     primaryKey: true,
   },
+  clientId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  prestataireId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  serviceId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
   dateRdv: {
     type: DataTypes.DATEONLY,
     allowNull: false,

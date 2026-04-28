@@ -7,6 +7,14 @@ const Avis = sequelize.define("Avis", {
     autoIncrement: true,
     primaryKey: true,
   },
+  clientId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  rendezVousId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
   dateAvis: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,

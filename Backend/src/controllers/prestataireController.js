@@ -1,4 +1,5 @@
 const { Prestataire, Client, Service, Document } = require("../models");
+const generateToken = require("../utils/generateToken");
 
 // Voir profil prestataire
 exports.getPrestataireById = async (req, res) => {
@@ -80,8 +81,43 @@ exports.createPrestataire = async (req, res) => {
       disponibilite,
     });
 
+    const client = await Client.findByPk(clientId);
+    if (!client) {
+      return res.status(404).json({
+        message: "Client introuvable pour générer le token prestataire",
+      });
+    }
+
+    // Mettre le compte en attente — le rôle reste "client" jusqu'à validation admin
+    await client.update({ statutCompte: "en_attente" });
+
+    // Créer un Document initial pour la validation admin
+    await Document.create({
+      prestataireId: prestataire.id,
+      fichier: "en_attente", // Placeholder - sera remplacé par le CV uploadé
+      statut: "en_attente",
+    });
+
+    const token = generateToken({
+      id: client.id,
+      prestataireId: prestataire.id,
+      role: "client",           // reste client jusqu'à acceptation
+      email: client.email,
+      statutCompte: "en_attente",
+    });
+
     res.status(201).json({
-      message: "Prestataire créé avec succès",
+      message: "Profil prestataire créé. En attente de validation du CV par l'administrateur.",
+      token,
+      user: {
+        id: client.id,
+        prestataireId: prestataire.id,
+        nom: client.nom,
+        prenom: client.prenom,
+        email: client.email,
+        role: "client",
+        statutCompte: "en_attente",
+      },
       prestataire,
     });
   } catch (error) {

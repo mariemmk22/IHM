@@ -12,10 +12,30 @@ const {
 // ==============================
 exports.getAllUsers = async (req, res) => {
   try {
-    const clients = await Client.findAll();
-    const prestataires = await Prestataire.findAll();
+    const clients = await Client.findAll({
+      include: [
+        {
+          model: Prestataire,
+          as: "prestataire",
+          required: false,
+        },
+      ],
+    });
 
-    res.json({ clients, prestataires });
+    const users = clients.map((client) => ({
+      id: `${client.prestataire ? "prestataire" : "client"}-${client.prestataire?.id || client.id}`,
+      rawId: client.prestataire?.id || client.id,
+      clientId: client.id,
+      name: `${client.nom} ${client.prenom}`,
+      email: client.email,
+      role: client.prestataire ? "Prestataire" : "Client",
+      status: client.statutCompte === "actif" ? "active" : "blocked",
+      joined: client.createdAt,
+      specialite: client.prestataire?.specialite || null,
+      disponibilite: client.prestataire?.disponibilite || false,
+    }));
+
+    res.json(users);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -48,9 +68,15 @@ exports.blockPrestataire = async (req, res) => {
   try {
     const { id } = req.params;
 
-    await Prestataire.update(
+    const prestataire = await Prestataire.findByPk(id);
+
+    if (!prestataire) {
+      return res.status(404).json({ message: "Prestataire introuvable" });
+    }
+
+    await Client.update(
       { statutCompte: "bloque" },
-      { where: { id } }
+      { where: { id: prestataire.clientId } }
     );
 
     res.json({ message: "Prestataire bloqué" });
@@ -59,7 +85,6 @@ exports.blockPrestataire = async (req, res) => {
   }
 };
 
-
 // ==============================
 // ✅ Activer prestataire
 // ==============================
@@ -67,8 +92,19 @@ exports.activatePrestataire = async (req, res) => {
   try {
     const { id } = req.params;
 
-    await Prestataire.update(
+    const prestataire = await Prestataire.findByPk(id);
+
+    if (!prestataire) {
+      return res.status(404).json({ message: "Prestataire introuvable" });
+    }
+
+    await Client.update(
       { statutCompte: "actif" },
+      { where: { id: prestataire.clientId } }
+    );
+
+    await Prestataire.update(
+      { disponibilite: true },
       { where: { id } }
     );
 

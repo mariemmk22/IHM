@@ -23,6 +23,14 @@ const Service = sequelize.define("Service", {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
   },
+  prestataireId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  sousCategorieId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 }, {
   tableName: "services",
   timestamps: true,

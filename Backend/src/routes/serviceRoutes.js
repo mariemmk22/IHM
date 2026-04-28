@@ -5,6 +5,9 @@ const serviceController = require("../controllers/serviceController");
 const { verifyToken } = require("../middlewares/authMiddleware");
 const roleMiddleware = require("../middlewares/roleMiddleware");
 
+router.get("/prestataire/:prestataireId", serviceController.getServicesByPrestataire);
+router.get("/debug/by-prestataire/:prestataireId", serviceController.getServicesByPrestataire);
+
 router.get("/", serviceController.getAllServices);
 router.get("/search", serviceController.searchServices);
 router.get("/:id", serviceController.getServiceById);
