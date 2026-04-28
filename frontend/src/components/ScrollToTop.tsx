@@ -30,12 +30,10 @@ export function ScrollToTop() {
       {isVisible && (
         <Button
           onClick={scrollToTop}
-          variant="outline"
-          size="sm"
-          className="gap-2"
+          size="icon"
+          className="rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-md"
         >
           <ArrowUp className="w-4 h-4" />
-          
         </Button>
       )}
     </div>

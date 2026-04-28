@@ -75,7 +75,7 @@ export async function uploadPrestataireDocument(
   tokenOverride?: string,
 ): Promise<{ message: string; document: DocumentDto }> {
   const formData = new FormData();
-  formData.append("cv", file);
+  formData.append("fichier", file);
   formData.append("prestataireId", String(prestataireId));
 
   const token = tokenOverride ?? sessionStorage.getItem("servidom_token");

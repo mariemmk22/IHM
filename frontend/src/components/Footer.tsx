@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import sloganImg from "@/assets/Preview-removebg-preview.png";
+import footerLogo from "@/assets/Preview-removebg-preview - Copie.png";
 
 export function Footer() {
   return (
@@ -11,9 +12,9 @@ export function Footer() {
           <div className="flex flex-col gap-3">
             <Link to="/">
               <img
-                src={sloganImg}
-                alt="ServiDom"
-                className="h-14 w-auto object-contain"
+                src={footerLogo}
+                alt="KhidmaNow"
+                className="h-24 w-auto object-contain"
               />
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
@@ -54,7 +55,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-border mt-8 pt-6 text-center text-sm text-muted-foreground">
-          © 2026 ServiDom. Tous droits réservés.
+          © 2026 Khidmanow. Tous droits réservés.
         </div>
       </div>
     </footer>

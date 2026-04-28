@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ServiceCard } from "@/components/ServiceCard";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { Slider } from "@/components/ui/slider";
 import { useServices } from "@/hooks/useServices";
 import { useCategories } from "@/hooks/useCategories";
@@ -353,6 +354,7 @@ export default function ServicesPage() {
         </div>
       </div>
 
+      <ScrollToTop />
       <Footer />
     </div>
   );
